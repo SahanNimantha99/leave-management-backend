@@ -1,9 +1,8 @@
 import { Sequelize } from "sequelize";
 
-const sequelize = new Sequelize({
+// Initialize Sequelize with SQLite
+export const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: "./leave_management.sqlite",
+  storage: "database.sqlite",
   logging: false,
 });
-
-export default sequelize;
