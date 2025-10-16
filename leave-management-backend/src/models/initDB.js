@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { sequelize } from "./../config/db.js";
 import { User } from "./userModel.js";
+import { Leave } from "./leaveModel.js";
 
 export const initDB = async () => {
   try {
@@ -27,7 +28,7 @@ export const initDB = async () => {
     for (const u of defaultUsers) {
       const existingUser = await User.findOne({ where: { email: u.email } });
       if (!existingUser) {
-        // Hash password before creating user
+        // Hash password before storing
         const hashedPassword = await bcrypt.hash(u.password, 10);
         await User.create({
           name: u.name,
@@ -37,6 +38,15 @@ export const initDB = async () => {
         });
         console.log(`User ${u.email} seeded successfully!`);
       }
+    }
+
+    // Fix orphaned leaves (leaves with null userId)
+    const employee = await User.findOne({
+      where: { email: "employee@gmail.com" },
+    });
+    if (employee) {
+      await Leave.update({ userId: employee.id }, { where: { userId: null } });
+      console.log("Orphaned leaves fixed and assigned to Employee User.");
     }
 
     console.log("Database initialized successfully!");
