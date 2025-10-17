@@ -38,8 +38,29 @@ export const applyLeave = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
+    if (new Date(toDate) < new Date(fromDate)) {
+      return res
+        .status(400)
+        .json({ message: "To date cannot be before from date" });
+    }
+
     const user = await User.findOne({ where: { email } });
     if (!user) return res.status(404).json({ message: "User not found" });
+
+    const overlapping = await Leave.findOne({
+      where: {
+        userId: user.id,
+        status: "Approved",
+        fromDate: { [Op.lte]: toDate },
+        toDate: { [Op.gte]: fromDate },
+      },
+    });
+
+    if (overlapping) {
+      return res.status(409).json({
+        message: "Leave request conflicts with an existing approved leave",
+      });
+    }
 
     const leave = await Leave.create({
       fromDate,
@@ -55,6 +76,7 @@ export const applyLeave = async (req, res) => {
     res.status(500).json({ message: "Server error while applying leave" });
   }
 };
+
 
 export const approveLeave = async (req, res) => {
   try {
