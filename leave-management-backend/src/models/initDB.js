@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import { sequelize } from "./../config/db.js";
 
+import { sequelize } from "./../config/db.js";
 import { User } from "./userModel.js";
 import { Leave } from "./leaveModel.js";
 
