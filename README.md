@@ -1,6 +1,7 @@
 # Leave Management System - Backend
 
-This is the backend API for managing employee leaves. Built with **Node.js**, **Express**, and **Sequelize** (with a SQLLite database).
+This is the backend API for a Leave Management System, providing endpoints for employees and admins to manage leave requests. It is built with Node.js, Express, and Sequelize ORM, using SQLite as the database (configurable for other SQL databases).
+The API handles user authentication, role-based access control, leave management, and conflict detection. It is designed to work seamlessly with a React or Angular frontend and provides a clear, RESTful interface for all leave-related operations.
 
 ---
 
@@ -157,7 +158,7 @@ Cancel a leave (Employee - only pending leaves).
 | Role      | Email                    | Password     |
 |-----------|--------------------------|--------------|
 | Admin     | admin@example.com        | admin123     |
-| Employee  | employee@gmail.com"      | emp123       |
+| Employee  | employee@gmail.com       | emp123       |
 
 ---
 
