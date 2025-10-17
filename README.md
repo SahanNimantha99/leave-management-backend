@@ -1,6 +1,6 @@
 # Leave Management System - Backend
 
-This is the backend API for managing employee leaves. Built with **Node.js**, **Express**, and **Sequelize** (with a SQL database).
+This is the backend API for managing employee leaves. Built with **Node.js**, **Express**, and **Sequelize** (with a SQLLite database).
 
 ---
 
