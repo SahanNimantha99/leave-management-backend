@@ -1,4 +1,5 @@
 import express from "express";
+
 import { authenticate } from "../middleware/authMiddleware.js";
 import { authorize } from "../middleware/roleMiddleware.js";
 import {
@@ -6,6 +7,7 @@ import {
   applyLeave,
   approveLeave,
   cancelLeave,
+  editLeave,
 } from "../controllers/leaveController.js";
 
 const router = express.Router();
@@ -14,8 +16,9 @@ const router = express.Router();
 router.get("/", authenticate, getLeaves);
 router.post("/", authenticate, applyLeave);
 
-// Employee: cancel leave
+// Employee: cancel or edit pending leave
 router.delete("/:id", authenticate, cancelLeave);
+router.put("/:id", authenticate, editLeave);
 
 // Admin: approve/reject leave
 router.put("/:id/approve", authenticate, authorize("admin"), approveLeave);

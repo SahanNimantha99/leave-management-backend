@@ -1,14 +1,13 @@
 import bcrypt from "bcrypt";
 import { sequelize } from "./../config/db.js";
+
 import { User } from "./userModel.js";
 import { Leave } from "./leaveModel.js";
 
 export const initDB = async () => {
   try {
-    // Sync tables without dropping existing ones
     await sequelize.sync();
 
-    // Define default users
     const defaultUsers = [
       {
         name: "Admin User",
@@ -24,11 +23,9 @@ export const initDB = async () => {
       },
     ];
 
-    // Seed default users safely
     for (const u of defaultUsers) {
       const existingUser = await User.findOne({ where: { email: u.email } });
       if (!existingUser) {
-        // Hash password before storing
         const hashedPassword = await bcrypt.hash(u.password, 10);
         await User.create({
           name: u.name,
@@ -40,7 +37,6 @@ export const initDB = async () => {
       }
     }
 
-    // Fix orphaned leaves (leaves with null userId)
     const employee = await User.findOne({
       where: { email: "employee@gmail.com" },
     });
