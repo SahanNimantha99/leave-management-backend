@@ -1,0 +1,41 @@
+name: Backend CI/CD - Node.js
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛠️ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🧩 Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 📦 Install Dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: ✅ Run Tests (if available)
+        working-directory: ./backend
+        run: npm test --if-present
+
+      # --- CD: Deploy to AWS EC2 ---
+      - name: 🚀 Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ec2-user/leave-management-backend
+            git pull origin main
+            npm install
+            pm2 restart all || pm2 start src/server.js --name backend
