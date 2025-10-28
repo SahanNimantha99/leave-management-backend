@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 
+import { Leave } from "./leaveModel.js";
 import { sequelize } from "./../config/db.js";
 import { User } from "./userModel.js";
-import { Leave } from "./leaveModel.js";
 
 export const initDB = async () => {
   try {

@@ -1,9 +1,11 @@
 import express from "express";
+
 import cors from "cors";
 import dotenv from "dotenv";
+
 import authRoutes from "./routes/authRoutes.js";
-import leaveRoutes from "./routes/leaveRoutes.js";
 import { initDB } from "./models/initDB.js";
+import leaveRoutes from "./routes/leaveRoutes.js";
 
 dotenv.config();
 const app = express();

@@ -157,7 +157,7 @@ Cancel a leave (Employee - only pending leaves).
 | Role      | Email                    | Password     |
 |-----------|--------------------------|--------------|
 | Admin     | admin@example.com        | admin123     |
-| Employee  | employee@gmail.com"      | emp123       |
+| Employee  | employee@gmail.com      | emp123       |
 
 ---
 
